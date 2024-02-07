@@ -1,0 +1,14 @@
+.colorCanvas {
+    border: 1px solid #ccc;
+    cursor: url('IconColorPicker.svg') 10 30, auto;
+  }
+  
+  .dropperActive {
+    cursor: url('Selected\ Color.png') 10 30, auto !important;
+  }
+  
+  .colorInfo {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+  
