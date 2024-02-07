@@ -21,7 +21,7 @@ const ColorDropper: React.FC = () => {
   }, []);
   const fps = 300, fpsInterval = 1000 / fps;
   let context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, then: number, point: { x: any; y: any; }, distPoint: { x: any; y: any; }, pos: { x: any; y: any; }, image: HTMLImageElement;
-  const onMouseMove1 = (ev: any) => {
+  const detectMovement = (ev: any) => {
     var rect = canvas.getBoundingClientRect();
     point = {
         x: (ev.clientX - 7) - rect.left,
@@ -59,7 +59,7 @@ const ColorDropper: React.FC = () => {
   const bind = () => {
     window.addEventListener("resize", resize.bind(this), false);
 
-    canvas.addEventListener("mousemove", onMouseMove1);
+    canvas.addEventListener("mousemove", detectMovement);
 
     canvas.addEventListener("touchmove", onTouchMove);
 
