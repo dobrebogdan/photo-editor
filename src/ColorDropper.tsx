@@ -24,44 +24,36 @@ const ColorDropper: React.FC = () => {
   const detectMovement = (ev: any) => {
     const rect = canvas.getBoundingClientRect();
     point = {
-        x: (ev.clientX - 7) - rect.left,
-        y: (ev.clientY - 7) - rect.top
+      x: (ev.clientX - 7) - rect.left,
+      y: (ev.clientY - 7) - rect.top
     };
 
     distPoint = {
-        x: (point.x - canvas.width * 0.5) / canvas.width,
-        y: (point.y - canvas.height * 0.5) / canvas.height
+      x: (point.x - canvas.width * 0.5) / canvas.width,
+      y: (point.y - canvas.height * 0.5) / canvas.height
     };
   }
 
   const onTouchMove = (ev: any) => {
     const rect = canvas.getBoundingClientRect();
     point = {
-        x: ev.touches[0].clientX - rect.left,
-        y: ev.touches[0].clientY - rect.top
+      x: ev.touches[0].clientX - rect.left,
+      y: ev.touches[0].clientY - rect.top
     };
 
     distPoint = {
-        x: (point.x - canvas.width * 0.5) / canvas.width,
-        y: (point.y - canvas.height * 0.5) / canvas.height
+      x: (point.x - canvas.width * 0.5) / canvas.width,
+      y: (point.y - canvas.height * 0.5) / canvas.height
     };
   }
 
   const clear = () => {
     context.clearRect(0, 0, canvas.width, canvas.height);
   }
- 
+
   const resize = () => {
     canvas.width = window.innerWidth * 0.7;
     canvas.height = window.innerWidth * 0.7 / 1.77;
-
-  }
-  const bind = () => {
-    window.addEventListener("resize", resize.bind(this), false);
-
-    canvas.addEventListener("mousemove", detectMovement);
-
-    canvas.addEventListener("touchmove", onTouchMove);
 
   }
 
@@ -70,28 +62,28 @@ const ColorDropper: React.FC = () => {
     context.drawImage(image, 0, 0, canvas.width, canvas.height);
     if (isColorDropperActive) {
 
-        pos.x += (point.x - pos.x) * 0.5;
-        pos.y += (point.y - pos.y) * 0.5;
+      pos.x += (point.x - pos.x) * 0.5;
+      pos.y += (point.y - pos.y) * 0.5;
 
-        context.save();
-        context.beginPath();
-        context.arc(pos.x, pos.y, canvas.height * 0.15, 0, Math.PI * 2, true);
-        context.strokeStyle = "white";
-        context.lineWidth = 6;
-        context.stroke();
-        context.closePath();
-        context.clip();
+      context.save();
+      context.beginPath();
+      context.arc(pos.x, pos.y, canvas.height * 0.15, 0, Math.PI * 2, true);
+      context.strokeStyle = "white";
+      context.lineWidth = 6;
+      context.stroke();
+      context.closePath();
+      context.clip();
 
 
-        context.drawImage(
-            image,
-            -canvas.width * 0.5 + (canvas.width - canvas.width * 2) * (distPoint.x * 1),
-            -canvas.height * 0.5 + (canvas.height - canvas.height * 2) * (distPoint.y * 1),
-            canvas.width * 2,
-            canvas.height * 2
-        );
+      context.drawImage(
+        image,
+        -canvas.width * 0.5 + (canvas.width - canvas.width * 2) * (distPoint.x * 1),
+        -canvas.height * 0.5 + (canvas.height - canvas.height * 2) * (distPoint.y * 1),
+        canvas.width * 2,
+        canvas.height * 2
+      );
 
-        context.restore();
+      context.restore();
     }
   }
 
@@ -102,42 +94,44 @@ const ColorDropper: React.FC = () => {
     const delta = now - then;
 
     if (delta > fpsInterval) {
-        render();
-        then = now;
+      render();
+      then = now;
     }
   }
 
 
   const initializeCanvas = (currentCanvas: HTMLCanvasElement) => {
-      canvas = currentCanvas;
-      context = canvas.getContext("2d") as CanvasRenderingContext2D;
+    canvas = currentCanvas;
+    context = canvas.getContext("2d") as CanvasRenderingContext2D;
 
-      then = Date.now();
+    then = Date.now();
 
-      point = { x: 0, y: 0 };
-      distPoint = { x: 0, y: 0 };
-      pos = { x: 0, y: 0 };
+    point = { x: 0, y: 0 };
+    distPoint = { x: 0, y: 0 };
+    pos = { x: 0, y: 0 };
 
-      resize();
-      bind();
+    resize();
 
-      image = new Image();
-      image.src = backgroundImage;
+    canvas.addEventListener("mousemove", detectMovement);
+    canvas.addEventListener("touchmove", onTouchMove);
 
-      image.onload = () => {
-          loop();
-      };
+    image = new Image();
+    image.src = backgroundImage;
+
+    image.onload = () => {
+      loop();
+    };
 
   }
   useEffect(() => {
     if (isColorDropperActive) {
-        const currentCanvas = document.getElementById("magnifyingCanvas");
-        initializeCanvas(currentCanvas as HTMLCanvasElement);
+      const currentCanvas = document.getElementById("magnifyingCanvas");
+      initializeCanvas(currentCanvas as HTMLCanvasElement);
     } else {
-        const currentCanvas = document.getElementById("regularCanvas");
-        initializeCanvas(currentCanvas as HTMLCanvasElement);
+      const currentCanvas = document.getElementById("regularCanvas");
+      initializeCanvas(currentCanvas as HTMLCanvasElement);
     }
-  // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [isColorDropperActive]);
 
   function rgbToHex(rgbString: string) {
@@ -146,18 +140,18 @@ const ColorDropper: React.FC = () => {
     if (!match) {
       throw new Error('Invalid RGB string format');
     }
-  
+
     // Extract the RGB values from the match
     const [, red, green, blue] = match.map(Number);
-  
+
     // Convert each component to a two-digit hexadecimal value
     const redHex = red.toString(16).padStart(2, '0');
     const greenHex = green.toString(16).padStart(2, '0');
     const blueHex = blue.toString(16).padStart(2, '0');
-  
+
     // Combine the hexadecimal values to form the final color
     const hexColor = `#${redHex}${greenHex}${blueHex}`;
-  
+
     return hexColor;
   }
 
@@ -200,26 +194,26 @@ const ColorDropper: React.FC = () => {
 
   return (
     <div>
-      <div style={{ position: 'fixed', top: textPosition.y, left: textPosition.x-30, pointerEvents: 'none' }}>
+      <div style={{ position: 'fixed', top: textPosition.y, left: textPosition.x - 30, pointerEvents: 'none' }}>
         <p>{isColorDropperActive ? currentColor : ''}</p>
       </div>
-      <div style={ 
+      <div style={
         {
           width: '4000px',
           height: '16px',
           fontSize: '16px'
         }
       }>
-        <img alt="" src={colorPicker} onClick={() => {setIsColorDropperActive(!isColorDropperActive);}}/>
+        <img alt="" src={colorPicker} onClick={() => { setIsColorDropperActive(!isColorDropperActive); }} />
       </div>
-      {pickedColor ? <div style={ 
+      {pickedColor ? <div style={
         {
           width: '4000px',
           height: '16px',
           fontSize: '16px'
         }
       }>Picked Color: {pickedColor}</div> : ''}
-      {isColorDropperActive ? <canvas id="magnifyingCanvas" width={4000} height={4000} onClick={onCanvasClick} onMouseMove={onMouseMove}/> : <canvas id="regularCanvas" width={4000} height={4000}/>}         
+      {isColorDropperActive ? <canvas id="magnifyingCanvas" width={4000} height={4000} onClick={onCanvasClick} onMouseMove={onMouseMove} /> : <canvas id="regularCanvas" width={4000} height={4000} />}
     </div>
   );
 };
