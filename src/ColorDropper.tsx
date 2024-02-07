@@ -22,7 +22,7 @@ const ColorDropper: React.FC = () => {
   const fps = 300, fpsInterval = 1000 / fps;
   let context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, then: number, point: { x: any; y: any; }, distPoint: { x: any; y: any; }, pos: { x: any; y: any; }, image: HTMLImageElement;
   const detectMovement = (ev: any) => {
-    var rect = canvas.getBoundingClientRect();
+    const rect = canvas.getBoundingClientRect();
     point = {
         x: (ev.clientX - 7) - rect.left,
         y: (ev.clientY - 7) - rect.top
@@ -35,7 +35,7 @@ const ColorDropper: React.FC = () => {
   }
 
   const onTouchMove = (ev: any) => {
-    var rect = canvas.getBoundingClientRect();
+    const rect = canvas.getBoundingClientRect();
     point = {
         x: ev.touches[0].clientX - rect.left,
         y: ev.touches[0].clientY - rect.top
@@ -164,17 +164,17 @@ const ColorDropper: React.FC = () => {
   const onCanvasClick = (event: any) => {
     const canvas = document.getElementById("magnifyingCanvas") as HTMLCanvasElement;
     const context = canvas!.getContext("2d");
-    var mouseX = event.clientX - canvas!.getBoundingClientRect().left;
-    var mouseY = event.clientY - canvas!.getBoundingClientRect().top;
+    const mouseX = event.clientX - canvas!.getBoundingClientRect().left;
+    const mouseY = event.clientY - canvas!.getBoundingClientRect().top;
 
     // Get pixel data at the mouse coordinates
-    var imageData = context!.getImageData(mouseX, mouseY, 1, 1);
-    var pixel = imageData.data;
+    const imageData = context!.getImageData(mouseX, mouseY, 1, 1);
+    const pixel = imageData.data;
 
     // Extract RGB values
-    var red = pixel[0];
-    var green = pixel[1];
-    var blue = pixel[2];
+    const red = pixel[0];
+    const green = pixel[1];
+    const blue = pixel[2];
 
     setPickedColor(rgbToHex("rgb(" + red + ", " + green + ", " + blue + ")"));
   }
@@ -182,17 +182,17 @@ const ColorDropper: React.FC = () => {
   const onMouseMove = (event: any) => {
     const canvas = document.getElementById("magnifyingCanvas") as HTMLCanvasElement;
     const context = canvas!.getContext("2d");
-    var mouseX = event.clientX - canvas!.getBoundingClientRect().left;
-    var mouseY = event.clientY - canvas!.getBoundingClientRect().top;
+    const mouseX = event.clientX - canvas!.getBoundingClientRect().left;
+    const mouseY = event.clientY - canvas!.getBoundingClientRect().top;
 
     // Get pixel data at the mouse coordinates
-    var imageData = context!.getImageData(mouseX, mouseY, 1, 1);
-    var pixel = imageData.data;
+    const imageData = context!.getImageData(mouseX, mouseY, 1, 1);
+    const pixel = imageData.data;
 
     // Extract RGB values
-    var red = pixel[0];
-    var green = pixel[1];
-    var blue = pixel[2];
+    const red = pixel[0];
+    const green = pixel[1];
+    const blue = pixel[2];
 
     setCurrentColor(rgbToHex("rgb(" + red + ", " + green + ", " + blue + ")"));
   }
